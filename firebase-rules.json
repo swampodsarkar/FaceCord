@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "isOnline": { ".write": true },
+        "lastSeen": { ".write": true }
+      }
+    },
+    "rooms": {
+      "$roomId": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || data.child('createdBy').val() === auth.uid)",
+        "messages": {
+          ".read": "auth != null",
+          ".write": "auth != null"
+        }
+      }
+    },
+    "clips": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}
